@@ -29,26 +29,49 @@ public class FamousQuotesApp {
         Scanner scanner = new Scanner(System.in);
 
         // Read the number
-        int inputNumber = scanner.nextInt();
-        scanner.nextLine();
+        int inputNumber = getInputNumber(scanner);
 
         // Test input and validate
-        if (inputNumber <1 || inputNumber >10){
-            System.out.println("""
-                    Ooops!  That number I can't deal with.
-                        I only do numbers between 1 and 10
-                        Please try again.""");
-            System.exit(1);
-        }
+//        if (inputNumber <0 || inputNumber >9){
+//            System.out.println("""
+//                    Ooops!  That number I can't deal with.
+//                        I only do numbers between 1 and 10
+//                        Please try again.""");
+//            System.exit(1);
+//        }
         // Subtract one from user input, and use as an index into the array
         inputNumber--;
 
         // Example: print a quote
 
         System.out.println("Thank you for your number!  Here is a famous quote:");
-        System.out.println(quotes[inputNumber]);
+        try {
+            System.out.println(quotes[inputNumber]);
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println(e.getMessage() + "- the computer");
+            System.out.println(quotes[5]);
+        }
 
 
         scanner.close();
+    }
+
+    private static int getInputNumber(Scanner scanner) {
+        int inputNumber = 0;
+        boolean badInput = false;
+
+        do {
+            badInput = false;
+            try {
+                inputNumber = scanner.nextInt();
+            } catch (Exception e) {
+                System.out.println("I didn't understand.  Please try again.");
+                badInput = true;
+            }
+            scanner.nextLine();  // Clear out the input buffer
+        } while (badInput);
+
+        return inputNumber;
     }
 }
